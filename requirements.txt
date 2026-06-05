@@ -4,4 +4,4 @@ opencv-python-headless
 matplotlib
 streamlit-drawable-canvas
 pillow
-tensorflow-cpu==2.15.0
+tensorflow==2.15.0
