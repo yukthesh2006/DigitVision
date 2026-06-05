@@ -4,4 +4,4 @@ opencv-python-headless
 matplotlib
 streamlit-drawable-canvas
 pillow
-tensorflow==2.15.0
+tensorflow==2.20.0
