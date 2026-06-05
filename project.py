@@ -1,0 +1,71 @@
+import tensorflow as tf
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.callbacks import EarlyStopping
+import numpy as np
+
+print("Using TensorFlow version:", tf.__version__)
+
+# ------------------------------------------------
+# LOAD DATA
+# ------------------------------------------------
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+# Normalize
+x_train = x_train.astype("float32") / 255.0
+x_test = x_test.astype("float32") / 255.0
+
+# Reshape for CNN
+x_train = x_train.reshape(-1, 28, 28, 1)
+x_test = x_test.reshape(-1, 28, 28, 1)
+
+y_train = to_categorical(y_train, 10)
+y_test = to_categorical(y_test, 10)
+
+# ------------------------------------------------
+# BUILD CNN MODEL (HIGH ACCURACY)
+# ------------------------------------------------
+model = Sequential([
+    Conv2D(32, (3,3), activation="relu", input_shape=(28,28,1)),
+    MaxPooling2D((2,2)),
+    Conv2D(64, (3,3), activation="relu"),
+    MaxPooling2D((2,2)),
+    Flatten(),
+    Dense(128, activation="relu"),
+    Dropout(0.3),
+    Dense(10, activation="softmax")
+])
+
+model.compile(
+    optimizer="adam",
+    loss="categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+early_stop = EarlyStopping(monitor="val_loss", patience=2, restore_best_weights=True)
+
+print("Training model...")
+model.fit(
+    x_train,
+    y_train,
+    epochs=10,
+    batch_size=64,
+    validation_split=0.2,
+    callbacks=[early_stop],
+    verbose=1
+)
+
+# ------------------------------------------------
+# EVALUATE
+# ------------------------------------------------
+loss, acc = model.evaluate(x_test, y_test, verbose=0)
+print(f"Test Accuracy: {acc:.4f}")
+
+# ------------------------------------------------
+# SAVE MODEL
+# ------------------------------------------------
+model.save("mnist_trained_model.h5")
+print("Model saved successfully as mnist_trained_model.h5")
+

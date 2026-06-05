@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build Files
+build/
+dist/
+
+# Temporary Files
+*.tmp
+
+# TensorFlow Checkpoints
+checkpoint
+*.ckpt
+
+# Cache
+.cache/
+
+# Pytest
+.pytest_cache/
